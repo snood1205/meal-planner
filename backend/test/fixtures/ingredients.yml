@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  already_owned: false
+  quantity: 9.99
+  quantity_uom: MyString
+  store_at_which_to_purchase: MyString
+  estimated_cost_in_cents: 1
+
+two:
+  name: MyString
+  already_owned: false
+  quantity: 9.99
+  quantity_uom: MyString
+  store_at_which_to_purchase: MyString
+  estimated_cost_in_cents: 1
