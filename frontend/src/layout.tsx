@@ -13,5 +13,5 @@ export const Layout: FC = () => {
         <Outlet />
       </div>
     </div>
-  )
-}
+  );
+};

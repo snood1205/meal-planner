@@ -1,21 +1,22 @@
 import {useEffect, useState} from "react";
 import {Meal} from "../../models";
 import {Link} from "react-router-dom";
+import {fetchEndpoint} from "../../utilities";
 
 const displayCost = (value?: [number, number]) => {
-  if (value == null) return '';
-  const [dollars, cents] = value
-  const centsString = cents.toString().padStart(2, '0');
+  if (value == null) return "";
+  const [dollars, cents] = value;
+  const centsString = cents.toString().padStart(2, "0");
   return `$${dollars}.${centsString}`;
-}
+};
 
 const displayMinutes = (minutes?: number) => {
-  if (minutes == null) return '';
+  if (minutes == null) return "";
   if (minutes < 60) return `${minutes} min`;
   const hours = Math.floor(minutes / 60);
   const remainingMinutes = minutes % 60;
   return `${hours}:${remainingMinutes}`;
-}
+};
 
 type FetchedMeal = Omit<Meal, "startTime"> & { startTime?: string };
 const fetchedMealToMeal = (meal: FetchedMeal): Meal => meal.startTime != null ? ({
@@ -28,10 +29,10 @@ export const Meals = () => {
   const [meals, setMeals] = useState<Meal[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/meals')
+    fetchEndpoint("/meals")
       .then(response => response.json())
-      .then((meals: FetchedMeal[]) => setMeals(meals.map(fetchedMealToMeal)))
-  }, [])
+      .then((meals: FetchedMeal[]) => setMeals(meals.map(fetchedMealToMeal)));
+  }, []);
 
   return (
     <div className="max-w-7xl mx-auto p-4">
@@ -61,5 +62,5 @@ export const Meals = () => {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};

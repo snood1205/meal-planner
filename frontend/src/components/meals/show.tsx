@@ -1,29 +1,30 @@
 import {FC, useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {Meal} from "../../models";
 import {Recipe} from "../../models/recipe.ts";
-import {Location} from "./location.tsx";
+import {Location} from "./location";
+import {fetchEndpoint} from "../../utilities";
 
 type MealWithRecipes = Meal & { recipes: Recipe[] };
 
 const displayCost = (value?: [number, number]) => {
-  if (value == null) return '';
-  const [dollars, cents] = value
-  const centsString = cents.toString().padStart(2, '0');
+  if (value == null) return "";
+  const [dollars, cents] = value;
+  const centsString = cents.toString().padStart(2, "0");
   return `$${dollars}.${centsString}`;
-}
+};
 
 export const MealShow: FC = () => {
-  const {mealId} = useParams<{ mealId: string }>()
+  const {mealId} = useParams<{ mealId: string }>();
   const [meal, setMeal] = useState<MealWithRecipes>();
 
   useEffect(() => {
-    fetch(`http://localhost:3000/meals/${mealId}`)
+    fetchEndpoint(`/meals/${mealId}`)
       .then(response => response.json())
-      .then((meal: MealWithRecipes) => setMeal(meal))
-  }, [mealId])
+      .then((meal: MealWithRecipes) => setMeal(meal));
+  }, [mealId]);
 
-  if (meal == null) return <div>Loading...</div>
+  if (meal == null) return <div>Loading...</div>;
   return (
     <div className="max-w-7xl mx-auto p-4">
       <div className="flex flex-col gap-6">
@@ -40,15 +41,17 @@ export const MealShow: FC = () => {
             <div key={recipe.id} className="bg-white border border-gray-300 rounded-lg p-6 shadow mb-4">
               <div className="flex flex-wrap md:flex-nowrap justify-between">
                 <div className="flex-1 mb-4 md:mb-0">
-                  <h3 className="font-semibold text-lg">{recipe.name}</h3>
+                  <h3 className="font-semibold text-lg underline">
+                    <Link to={`/recipes/${recipe.id}`}>{recipe.name}</Link>
+                  </h3>
                   <p>Notes: {recipe.notes}</p>
                   <p>Type of dish: {recipe.typeOfDish}</p>
                   <Location location={recipe.recipeLocation}>{recipe.recipeLocation}</Location>
                 </div>
                 <div className="w-full md:w-auto md:flex-1">
-                  <p>Prep Time: {recipe.prepTimeMin ? `${recipe.prepTimeMin} mins` : 'N/A'}</p>
-                  <p>Cooking Time: {recipe.cookingTimeMin ? `${recipe.cookingTimeMin} mins` : 'N/A'}</p>
-                  <p>Cost: {recipe.totalCost ? displayCost(recipe.totalCost) : 'N/A'}</p>
+                  <p>Prep Time: {recipe.prepTimeMin ? `${recipe.prepTimeMin} mins` : "N/A"}</p>
+                  <p>Cooking Time: {recipe.cookingTimeMin ? `${recipe.cookingTimeMin} mins` : "N/A"}</p>
+                  <p>Cost: {recipe.totalCost ? displayCost(recipe.totalCost) : "N/A"}</p>
                 </div>
               </div>
             </div>
@@ -57,4 +60,4 @@ export const MealShow: FC = () => {
       </div>
     </div>
   );
-}
+};

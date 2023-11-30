@@ -9,6 +9,7 @@ class Ingredient < ApplicationRecord
   scope :to_buy, -> { where(already_owned: false) }
 
   validate :validate_against_already_owned
+  validates :name, presence: true
 
   private
 

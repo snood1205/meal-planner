@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_29_222628) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_30_003502) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -40,14 +40,14 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_29_222628) do
   end
 
   create_table "meals", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "start_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "recipes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.string "notes"
     t.integer "type_of_dish"
     t.integer "prep_time_min"

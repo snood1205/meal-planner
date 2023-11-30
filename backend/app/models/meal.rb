@@ -5,6 +5,9 @@ class Meal < ApplicationRecord
   has_many :recipes, through: :meal_recipes
   has_many :ingredients, through: :recipes
 
+  validates :name, presence: true
+
+
   def total_cost
     ingredients.to_buy.map(&:estimated_cost_in_cents).sum
   end
