@@ -9,7 +9,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'localhost:5173'
+    origins Rails.env.development? ? 'localhost:5173' : 'https://meal-planner-frontend.onrender.com'
 
     resource '*',
              headers: :any,
